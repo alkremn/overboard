@@ -15,29 +15,24 @@ public class UserTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private Board board;
     private User alice;
     private User bob;
-    private User charles;
     private Question question;
     private Answer answer;
 
 
     @Before
     public void setUp() throws Exception {
-        board = new Board("Java");
+        Board board = new Board("Java");
         alice = board.createUser("alice");
         bob = board.createUser("bob");
-        charles = board.createUser("charles");
         question = alice.askQuestion("What is a String?");
         answer = bob.answerQuestion(question, "It is a series of characters, " +
                 "strung together...");
-
-
     }
 
     @Test
-    public void questionReputationGoesUpIfIsUpvoted() throws Exception {
+    public void questionReputationGoesUpIfIsUpVoted() throws Exception {
         int questionerPoints = 5;
 
         bob.upVote(question);
@@ -46,7 +41,7 @@ public class UserTest {
     }
 
     @Test
-    public void answerReputationGoesUpIfIsUpvoted() throws Exception {
+    public void answerReputationGoesUpIfIsUpVoted() throws Exception {
         int answererPoints = 10;
 
         alice.upVote(answer);
@@ -75,13 +70,23 @@ public class UserTest {
     }
 
     @Test(expected = VotingException.class)
-    public void votingUpSelfQuestionsNotAllowed() throws Exception {
+    public void upVotingSelfQuestionsNotAllowed() throws Exception {
         alice.upVote(question);
     }
 
     @Test(expected = VotingException.class)
-    public void votingUpSelfAnswerNotAllowed() throws Exception {
+    public void upVotingSelfAnswerNotAllowed() throws Exception {
         bob.upVote(answer);
+    }
+
+    @Test(expected = VotingException.class)
+    public void downVotingSelfQuestionsNotAllowed() throws Exception {
+        alice.downVote(question);
+    }
+
+    @Test(expected = VotingException.class)
+    public void downVotingSelfAnswerNotAllowed() throws Exception {
+        bob.downVote(answer);
     }
 
     @Test

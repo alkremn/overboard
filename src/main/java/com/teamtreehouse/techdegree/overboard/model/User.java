@@ -44,14 +44,24 @@ public class User {
     }
 
     public boolean upVote(Post post) {
-        if (post.getAuthor().equals(this)) {
-            throw new VotingException("You cannot vote for yourself!");
+        if(!isSelfVoting(post)){
+            return post.addUpVoter(this);
         }
-        return post.addUpVoter(this);
+        return false;
     }
 
     public boolean downVote(Post post) {
+        if(!isSelfVoting(post)){
         return post.addDownVoter(this);
+        }
+        return false;
+    }
+
+    private boolean isSelfVoting(final Post post) {
+        if (post.getAuthor().equals(this)) {
+            throw new VotingException("You cannot vote for yourself!");
+        }
+        return false;
     }
 
     public int getReputation() {

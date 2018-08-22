@@ -86,7 +86,7 @@ public class UserTest {
 
     @Test
     public void downVotingAnswerCostReputation() throws Exception {
-        int expectedReputation = 45;
+        int expectedReputation = -1;
 
         alice.downVote(answer);
 
